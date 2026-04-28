@@ -156,7 +156,11 @@ void *TURecipientsSelectionContext = &TURecipientsSelectionContext;
 
 - (void)removeRecipient:(id<TURecipient>)recipient
 {
-	NSIndexSet *changedIndex = [NSIndexSet indexSetWithIndex:[_recipients indexOfObject:recipient]];
+	NSUInteger recipientIndex = [_recipients indexOfObject:recipient];
+	if (recipientIndex == NSNotFound) {
+		return;
+	}
+	NSIndexSet *changedIndex = [NSIndexSet indexSetWithIndex:recipientIndex];
 	
 	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:changedIndex forKey:@"recipients"];
 	[_recipients removeObjectsAtIndexes:changedIndex];
